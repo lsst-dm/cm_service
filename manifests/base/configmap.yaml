@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "cmservice"
+  labels:
+    app.kubernetes.io/name: "cm_service"
+data:
+  # These configurations are injected as environment variables into the
+  # app container.
+  SAFIR_NAME: "cmservice"
+  SAFIR_PROFILE: "production"
+  SAFIR_LOGGER: "cmservice"
+  SAFIR_LOG_LEVEL: "INFO"

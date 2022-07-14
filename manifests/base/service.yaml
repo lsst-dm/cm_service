@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: "cmservice"
+  labels:
+    app.kubernetes.io/name: "cm_service"
+spec:
+  ports:
+    - name: "cmservice-http"
+      protocol: "TCP"
+      port: 8080
+      targetPort: "app"
+  selector:
+    app.kubernetes.io/name: "cmservice"

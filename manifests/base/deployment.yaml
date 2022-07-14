@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "cmservice"
+  labels:
+    app.kubernetes.io/name: "cm_service"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: "cm_service"
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: "cm_service"
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: app
+          imagePullPolicy: "IfNotPresent"
+          # Use images field in a Kustomization to set/update image tag
+          image: "ghcr.io/lsst-sqre/cm_service"
+          ports:
+            - containerPort: 8080
+              name: "app"
+          envFrom:
+            - configMapRef:
+                name: "cmservice"
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - "all"
+            readOnlyRootFilesystem: true
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
